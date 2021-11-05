@@ -13,10 +13,12 @@ vue-router4专为支持vue3而创造
 **出现问题vue 3 con not find modules**
 
 当main.js改为main.ts文件后，编辑器会报错： ``` can not find modules 'xxx.vue' ```。</br>
-这是因为ts只能识别.ts文件，不能识别.vue文件。所以我们需要在src目录下新建一个后缀名为.d.ts文件。告诉ts如何去识别.vue文件。</br>
+这是因为ts只能识别.ts文件，不能识别.vue文件。
 当我们使用chrome进行英文搜索：'vue 3 con not find modules'.可以看到这个问题的原因以及解决办法：
 ![image](https://user-images.githubusercontent.com/47940363/140441220-cbe60591-bf90-4ae7-a214-0f4a4a577367.png)
 ```
+所以我们需要在src目录下新建一个后缀名为.d.ts文件。告诉ts如何去识别.vue文件。</br>
+文件内容：</br>
 declare module '*.vue' {
   import { DefineComponent } from 'vue'
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
