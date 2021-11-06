@@ -5,7 +5,25 @@
 90%写法完全一致除了以下几点：
 Vue3的Template支持多个跟标签，Vue2不支持；</br>
 Vue3有createApp(),而Vue 2 的是new Vue();</br>
-createApp(组件)，new Vue({template,render})
+createApp(组件)，new Vue({template,render})；</br>
+使用ref创建内部数据；</br>
+
+### v-model
+
+使用新的v-demo来代替以前的v-demol和.sync;</br>
+新增context.emit,与this.$emit作用相同
+
+### Vue3属性绑定
+
+默认所有属性都绑定到根元素；</br>
+使用inheritAttrs:false可以取消默认绑定；</br>
+使用$attrs或者context.attrs获取所有属性；</br>
+使用```v-bind="$attrs"```批量绑定属性；</br>
+使用 ```const{a,...b} = context.attrs将属性分开```</br>
+a:属性a;b:其余属性
+
+
+
 
 ## vue-router4
 vue-router4专为支持vue3而创造
@@ -66,14 +84,114 @@ createRouter({
 })
 ```
 
+## 父子组件通信：
+
+通过props接收事件；
+
+通过context发出数据；
+
+```
+//父组件
+
+<template>
+    <div>
+        <Switch :value="y"  @input="y = $event" />
+    </div>
+</template>
+<script lang="ts">
+    import Switch from "../lib/Switch.vue";
+    import { ref } from 'vue'
+    export default {
+        components:{Switch},
+        setup(){
+            const y = ref(false)
+            return {y}
+        }
+    }
+</script>
+```
+
+```
+//子组件
+<template>
+    <button :class="{checked:value}" @click="toggle">
+        <span></span>
+    </button>
+    <div>{{value}}</div>
+</template>
+
+<script lang="ts">
+    export default  {
+        props:{
+          value:Boolean
+        },
+        setup(props: any, context: { emit: (arg0: string, arg1: boolean) => void }){
+            const toggle = ()=>{
+                context.emit('input',!props.value)
+            }
+            return {toggle}
+        }
+    }
+</script>
+
+```
+子组件通过props接收外部传来的数据-y,此时y的值为false。父组件创建了一个input事件（其实这个事件不一定是input，想设置什么事件都可以）</br>
+子组件通过context接收该事件，context有个方法```emit```,这个方法有两个参数，第一个参数为事件名，第二个参数就是父组件传过来的$event.
+```
+emit(事件名，事件参数)
+```
 
 
+### v-model对父子组件通信进行简化
 
+使用v-model后的代码：
+```
+//父组件
 
+<template>
+    <div>
+        <Switch v-model:value="y" />
+    </div>
+</template>
+<script lang="ts">
+    import Switch from "../lib/Switch.vue";
+    import { ref } from 'vue'
+    export default {
+        components:{Switch},
+        setup(){
+            const y = ref(false)
+            return {y}
+        }
+    }
+</script>
+```
 
+```
+//子组件
 
+<template>
+    <button :class="{checked:value}" @click="toggle">
+        <span></span>
+    </button>
+</template>
 
+<script lang="ts">
+    export default  {
+        props:{
+          value:Boolean
+        },
+        setup(props: any, context: { emit: (arg0: string, arg1: boolean) => void }){
+            const toggle = ()=>{
+                context.emit('update:value',!props.value)
+            }
+            return {toggle}
+        }
+    }
+</script>
+```
 
+注意子组件中，context的第一个参数改为：```'update:x```。</br>
+其中x为子组件中props传递过来的参数。
 
 
 
