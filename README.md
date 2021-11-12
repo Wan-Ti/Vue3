@@ -22,7 +22,8 @@ createApp(组件)，new Vue({template,render})；</br>
 使用 ```const{a,...b} = context.attrs将属性分开```</br>
 a:属性a;b:其余属性
 
-
+### 自定义组件
+自定义组件的过程中如何在运行时确认子组件的类型：检查``` context.slots.default() ```数组
 
 
 ## vue-router4
