@@ -25,8 +25,21 @@ a:属性a;b:其余属性
 ### 自定义组件
 自定义组件的过程中如何在运行时确认子组件的类型：检查``` context.slots.default() ```数组
 
-### 使用JS获取插槽内容
+### JS小技巧
+
+#### 使用JS获取插槽内容
 ``` const defaults = context.slots.default() ```
+
+#### 获取宽高位置
+
+``` const {width,height,top,left} = e.getBoundingClientRect() ```
+
+#### ES6析构赋值的重命名语法
+
+``` 
+const {left:left1} = x.getBoundingClientRect()
+const {left:left2} = y.getBoundingClientRect()
+```
 
 ### 钩子
 
