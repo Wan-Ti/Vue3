@@ -25,6 +25,17 @@ a:属性a;b:其余属性
 ### 自定义组件
 自定义组件的过程中如何在运行时确认子组件的类型：检查``` context.slots.default() ```数组
 
+### 使用JS获取插槽内容
+``` const defaults = context.slots.default() ```
+
+### 钩子
+
+onMounted,onUpdated,watchEffect.其中watchEffect发生在onMounted之前
+
+### TypeScript
+
+const indeicator = ref<HTMLDivElement>(null)
+
 
 ## vue-router4
 vue-router4专为支持vue3而创造
