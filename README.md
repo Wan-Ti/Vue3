@@ -219,7 +219,15 @@ emit(事件名，事件参数)
 其中x为子组件中props传递过来的参数。
 
 
+## ref 
 
+接受一个内部值并返回一个响应式且可变的 ref 对象。ref 对象具有指向内部值的单个 property .value。
+
+### toRef 
+
+### toRefs
+
+### isRef
 
 
 
